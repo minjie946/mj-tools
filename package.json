@@ -1,0 +1,39 @@
+{
+  "name": "mj-tools",
+  "version": "0.0.1-alpha.1",
+  "description": "",
+  "main": "lib/bundle.cjs.js",
+  "jsnext:main": "lib/bundle.esm.js",
+  "module": "lib/bundle.esm.js",
+  "browser": "lib/bundle.browser.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "dev": "npx rollup -wc rollup.config.dev.js",
+    "build": "npx rollup -c rollup.config.js && npm run build:types",
+    "build:types": "npx tsc"
+  },
+  "author": "minjie",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^21.0.2",
+    "@rollup/plugin-eslint": "^8.0.1",
+    "@rollup/plugin-typescript": "^8.3.1",
+    "@types/qs": "^6.9.7",
+    "rollup-plugin-filesize": "^9.1.2",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-serve": "^1.1.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^4.5.5"
+  },
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "dependencies": {
+    "axios": "^0.26.0",
+    "qs": "^6.10.3"
+  }
+}
