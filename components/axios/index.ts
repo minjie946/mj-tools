@@ -2,7 +2,7 @@
  * @description 接口请求的封装
  * @author minjie
  * @Date 2022-03-07 15:11
- * @LastEditTime 2022-03-10 17:25
+ * @LastEditTime 2022-03-10 18:19
  * @LastEditors minjie
  * @copyright Copyright © 2021 Shanghai Yejia Digital Technology Co., Ltd. All rights reserved.
  */
@@ -12,6 +12,7 @@
    BaseReplaceURLConfig, DomainListProps, AxiosProps, AxiosResponseData
  } from './index.inter'
  import qs from 'qs'
+ import './index.less'
  
  /** 请求接口中的参数的替换 */
  const baseReplaceURL = ({ path, type }: URLInterface, { version = 'v1', project }: BaseReplaceURLConfig): URLInterface => {

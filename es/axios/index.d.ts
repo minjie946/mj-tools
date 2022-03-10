@@ -1,4 +1,5 @@
 import { URLInterface, RequestMethodProps, AxiosProps } from './index.inter';
+import './index.less';
 export default class Axios {
     constructor(config: AxiosProps);
     /** 新的请求实例 */

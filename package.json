@@ -1,6 +1,6 @@
 {
   "name": "mj-tools",
-  "version": "0.0.1-alpha.11",
+  "version": "0.0.1-alpha.12",
   "description": "",
   "main": "lib/index.js",
   "jsnext:main": "lib/index.js",
@@ -9,6 +9,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "dev": "npx rollup -wc rollup.config.dev.js",
+    "build:es": "npx rollup -c rollup.config.es.js",
     "build": "npx rollup -c rollup.config.js"
   },
   "author": "minjie",

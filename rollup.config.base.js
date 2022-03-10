@@ -70,10 +70,6 @@ const entryFileNames = (chunkInfo) => {
   return chunkInfo.name === 'index' ? '[name].js' : '[name]/index.js'
 }
 
-const entryFileNamesStyle = (chunkInfo) => {
-  return chunkInfo.name === 'index' ? 'style/[name].js' : '[name]/style/index.js'
-}
-
 
 // console.log(inputPathAry)
 
