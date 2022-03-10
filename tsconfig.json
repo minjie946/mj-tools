@@ -13,9 +13,8 @@
     "emitDecoratorMetadata": true,
     "declarationDir": "types",
     "outDir": "types",
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "typeRoots": [ "node_modules/@types"]
   },
-  "include": ["components"]
+  "include": ["components"],
+  "exclude": ["lib", "node_modules"]
 }
