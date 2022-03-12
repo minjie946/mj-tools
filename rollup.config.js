@@ -1,11 +1,8 @@
-import allConfig from "./rollup.config.base";
+import { terser } from "rollup-plugin-terser"; // 压缩
+import filesize from "rollup-plugin-filesize"; // 文件大小
+import baseConfig from "./rollup.config.base";
 
-// es cjs esm umd
-const formatStrAry = ['lib']
-
-let ary = []
-formatStrAry.forEach(format => {
-  ary = ary.concat(allConfig(format))
-})
-
-export default ary
+export default {
+  ...baseConfig,
+  plugins: [...baseConfig.plugins, terser(), filesize()]
+};
