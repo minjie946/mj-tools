@@ -18,6 +18,7 @@ tsconfig.json
 
 # 文件夹
 test/
+src/
 node_modules/
 components/
 .idea/

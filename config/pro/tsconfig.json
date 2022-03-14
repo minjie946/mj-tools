@@ -11,10 +11,10 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "declarationDir": "lib",
-    "outDir": "lib",
-    "typeRoots": [ "node_modules/@types"]
+    "declarationDir": "../../lib",
+    "outDir": "../../lib",
+    "typeRoots": [ "../../node_modules/@types"]
   },
-  "include": ["components"],
-  "exclude": ["lib", "node_modules"]
+  "include": ["../../components"],
+  "exclude": ["../../lib", "../../node_modules"]
 }

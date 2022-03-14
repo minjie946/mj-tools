@@ -15,6 +15,8 @@ import postcsspresetenv from "postcss-preset-env";
 import cssnano from "cssnano";
 import { babel } from '@rollup/plugin-babel'
 import nodePolyfills from 'rollup-plugin-polyfill-node';
+import { terser } from "rollup-plugin-terser"; // 压缩
+import filesize from "rollup-plugin-filesize"; // 文件大小
 
 const path = require('path');
 
@@ -43,7 +45,7 @@ const baseOutPutConfig = {
 }
 
 export default {
-  input: './components/index.ts',
+  input: path.resolve('components/index.ts'),
   output: { dir: 'lib', format: 'esm', name: 'mj-tools', ...baseOutPutConfig },
   plugins: [
     clear({ targets: ['lib'] }),
@@ -61,16 +63,19 @@ export default {
       ]
     }),
     json(),
-    commonjs({ include: /node_modules/, }),
+    commonjs(),
+    // commonjs({ include: /node_modules/ }),
     resolve({
       preferBuiltins: true,
       jsnext: true,
       main: true,
       brower: true,
     }),
-    typescript(),
+    typescript({ tsconfig: path.resolve('config/pro/tsconfig.json') }),
     babel({ exclude: "node_modules/**" }),
-    nodePolyfills()
+    nodePolyfills(),
+    terser(),
+    filesize()
   ],
   experimentalCodeSplitting: true,
   external: Object.keys(globalsObject)

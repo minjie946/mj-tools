@@ -8,8 +8,9 @@
   "browser": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "dev": "npx rollup -wc rollup.config.dev.js",
-    "build": "npx rollup -c rollup.config.js"
+    "dev": "vite --config ./config/dev/vite.config.ts",
+    "dev:lib": "npx rollup -wc rollup.config.dev.js",
+    "build": "npx rollup -c ./config/pro/rollup.config.js"
   },
   "author": "minjie",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.39",
     "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^1.2.0",
     "autoprefixer": "^8.0.0",
     "cssnano": "^5.1.0",
     "less": "^4.1.2",
@@ -38,7 +40,9 @@
     "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-styles": "^4.0.0",
     "rollup-plugin-terser": "^7.0.2",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "vite": "^2.8.6",
+    "vite-plugin-style-import": "^1.4.1"
   },
   "peerDependencies": {
     "react": ">=16.14.0",
