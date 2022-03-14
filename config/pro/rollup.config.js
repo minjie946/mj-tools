@@ -17,8 +17,8 @@ import { babel } from '@rollup/plugin-babel'
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 import { terser } from "rollup-plugin-terser"; // 压缩
 import filesize from "rollup-plugin-filesize"; // 文件大小
-
-const path = require('path');
+import path from 'path'
+import pkg from  '../../package.json'
 
 const globalsObject = {
   react: 'react',
@@ -46,7 +46,7 @@ const baseOutPutConfig = {
 
 export default {
   input: path.resolve('components/index.ts'),
-  output: { dir: 'lib', format: 'esm', name: 'mj-tools', ...baseOutPutConfig },
+  output: { dir: 'lib', format: 'esm', name: pkg.name, ...baseOutPutConfig },
   plugins: [
     clear({ targets: ['lib'] }),
     styles({
