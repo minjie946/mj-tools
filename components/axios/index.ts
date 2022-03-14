@@ -2,7 +2,7 @@
  * @description 接口请求的封装
  * @author minjie
  * @Date 2022-03-07 15:11
- * @LastEditTime 2022-03-10 18:19
+ * @LastEditTime 2022-03-14 16:04
  * @LastEditors minjie
  * @copyright Copyright © 2021 Shanghai Yejia Digital Technology Co., Ltd. All rights reserved.
  */
@@ -12,7 +12,6 @@
    BaseReplaceURLConfig, DomainListProps, AxiosProps, AxiosResponseData
  } from './index.inter'
  import qs from 'qs'
- import './index.less'
  
  /** 请求接口中的参数的替换 */
  const baseReplaceURL = ({ path, type }: URLInterface, { version = 'v1', project }: BaseReplaceURLConfig): URLInterface => {
@@ -186,7 +185,7 @@
     * @param {RequestMethodProps} otherConfig 其余配置
     * @returns {Promise<any>}
     */
-   request = (url: URLInterface, params: any, otherConfig: RequestMethodProps = {}) => {
+   request = (url: URLInterface, params: any = {}, otherConfig: RequestMethodProps = {}) => {
      const { instance, axiosConfig: { requestConfig, timeout, project, handleResponseData, requertDynamicHeader } } = this
      const { config, headers = {}, cancelRepeatRequest }:RequestMethodProps = otherConfig
      // 接口的修改配置等

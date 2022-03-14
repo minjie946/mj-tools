@@ -2,11 +2,10 @@
  * @description 动画
  * @author minjie
  * @Date 2022-03-08 17:20
- * @LastEditTime 2022-03-10 18:19
+ * @LastEditTime 2022-03-14 16:04
  * @LastEditors minjie
  * @copyright Copyright © 2021 Shanghai Yejia Digital Technology Co., Ltd. All rights reserved.
  */
-import './index.less'
  export interface AnimationProps {
    x: number
    y: number

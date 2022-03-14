@@ -63,8 +63,7 @@ export default {
       ]
     }),
     json(),
-    commonjs(),
-    // commonjs({ include: /node_modules/ }),
+    commonjs({ include: /node_modules/ }),
     resolve({
       preferBuiltins: true,
       jsnext: true,
@@ -77,6 +76,5 @@ export default {
     terser(),
     filesize()
   ],
-  experimentalCodeSplitting: true,
   external: Object.keys(globalsObject)
 };

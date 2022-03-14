@@ -1,4 +1,3 @@
-import './index.less';
 /**
  * 判读是否为空
  * @param {*|*[]} value

@@ -1,5 +1,4 @@
 import { URLInterface, RequestMethodProps, AxiosProps } from './index.inter';
-import './index.less';
 export default class Axios {
     constructor(config: AxiosProps);
     /** 新的请求实例 */
@@ -32,7 +31,7 @@ export default class Axios {
      * @param {RequestMethodProps} otherConfig 其余配置
      * @returns {Promise<any>}
      */
-    request: (url: URLInterface, params: any, otherConfig?: RequestMethodProps) => Promise<unknown>;
+    request: (url: URLInterface, params?: any, otherConfig?: RequestMethodProps) => Promise<unknown>;
     /** 取消所有的请求 */
     onCancelRequestAll: () => void;
 }
