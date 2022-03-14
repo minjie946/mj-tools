@@ -11,8 +11,6 @@ import { ContentProps, FooterProps, HeaderItemProps } from './index.inter';
 import './index.less';
 /** 详情的标题 */
 export declare const HeaderItem: ({ isline, margin, style, className, children, ...props }: HeaderItemProps) => React.DetailedReactHTMLElement<{
-    ref?: React.LegacyRef<HTMLDivElement> | undefined;
-    key?: React.Key | null | undefined;
     defaultChecked?: boolean | undefined;
     defaultValue?: string | number | readonly string[] | undefined;
     suppressContentEditableWarning?: boolean | undefined;
@@ -1060,7 +1058,7 @@ export declare const HeaderItem: ({ isline, margin, style, className, children, 
         textAnchor?: import("csstype").Property.TextAnchor | undefined;
         vectorEffect?: import("csstype").Property.VectorEffect | undefined;
     };
-}, HTMLDivElement>;
+}, HTMLElement>;
 declare const ContentBase: {
     ({ reduceHeight, padding, minHeight, maxHeight, backgroundColor, isscroll, isfooter, className, style, children, onHeight, ...props }: ContentProps): React.ReactElement<{
         defaultChecked?: boolean | undefined;
@@ -3162,8 +3160,6 @@ declare const ContentBase: {
         };
     }, HTMLElement>;
     HeaderItem: ({ isline, margin, style, className, children, ...props }: HeaderItemProps) => React.DetailedReactHTMLElement<{
-        ref?: React.LegacyRef<HTMLDivElement> | undefined;
-        key?: React.Key | null | undefined;
         defaultChecked?: boolean | undefined;
         defaultValue?: string | number | readonly string[] | undefined;
         suppressContentEditableWarning?: boolean | undefined;
@@ -4211,7 +4207,7 @@ declare const ContentBase: {
             textAnchor?: import("csstype").Property.TextAnchor | undefined;
             vectorEffect?: import("csstype").Property.VectorEffect | undefined;
         };
-    }, HTMLDivElement>;
+    }, HTMLElement>;
     SearchContent: React.ForwardRefExoticComponent<ContentProps & React.RefAttributes<unknown>>;
 };
 /** 搜索的包裹层 */

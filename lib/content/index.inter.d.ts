@@ -2,13 +2,13 @@
  * @description 接口声名
  * @author minjie
  * @Date 2021-10-12 13:29
- * @LastEditTime 2022-03-08 17:36
+ * @LastEditTime 2022-03-14 14:52
  * @LastEditors minjie
  * @copyright Copyright © 2021 Shanghai Yejia Digital Technology Co., Ltd. All rights reserved.
  */
 import React from 'react';
 /** 标题 */
-export interface HeaderItemProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+export interface HeaderItemProps extends React.HTMLAttributes<HTMLDivElement> {
     /** 是否存在下划线 */
     isline?: boolean;
     /** 是否进行margin: 默认 20px 0 !important */

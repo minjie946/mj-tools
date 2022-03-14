@@ -33,6 +33,12 @@ export default defineConfig({
           esModule: true,
           resolveStyle: (name) => `antd/es/${name}/style/index`
         }
+        // {
+        //   // 3. mj-tools 按需加载需
+        //   libraryName: 'mj-tools',
+        //   esModule: true,
+        //   resolveStyle: (name) => `mj-tools/es/${name}/style/index`
+        // }
       ]
     })
   ],
