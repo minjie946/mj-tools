@@ -16,6 +16,7 @@ index.html
 # 文件夹
 test/
 src/
+typings/
 components/
 config/
 node_modules/
