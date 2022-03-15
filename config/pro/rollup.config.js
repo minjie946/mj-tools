@@ -21,15 +21,7 @@ import path from 'path'
 import pkg from  '../../package.json'
 
 const globalsObject = {
-  react: 'react',
-  antd: 'antd',
-  axios: 'axios',
-  moment: 'moment',
-  classnames: 'classnames',
-  'lodash-es': 'lodash-es',
-  'react-dom': 'react-dom',
-  'react-router-dom': 'react-router-dom',
-  '@ant-design/icons': '@ant-design/icons'
+  axios: 'axios'
 }
 
 const baseOutPutConfig = {
