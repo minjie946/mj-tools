@@ -2,14 +2,14 @@
  * @description 接口请求的封装
  * @author minjie
  * @Date 2022-03-07 15:11
- * @LastEditTime 2022-03-14 16:04
+ * @LastEditTime 2022-03-15 14:12
  * @LastEditors minjie
  * @copyright Copyright © 2021 Shanghai Yejia Digital Technology Co., Ltd. All rights reserved.
  */
  import axios, { AxiosResponse } from 'axios'
  import {
    URLInterface, RequestMethodProps, RequestConfigProps, ServiceConfigProps,
-   BaseReplaceURLConfig, DomainListProps, AxiosProps, AxiosResponseData
+   BaseReplaceURLConfig, DomainAryProps, AxiosProps, AxiosResponseData
  } from './index.inter'
  import qs from 'qs'
  
@@ -27,13 +27,14 @@
   * @param {RequestConfigProps} requestConfig 请求的配置
   * @returns {{ baseURL, header }}
   */
- const headerHandle = ({ path }: URLInterface, { baseDomainName, baseHeader, domainList }: RequestConfigProps): { baseURL: string, header: any } => {
+ const headerHandle = ({ path }: URLInterface, { domainAry, ...request }: RequestConfigProps): { baseURL: string, header: any, timeout?:number } => {
    // 请求的域名
    let domain: string | undefined
    let header: any
-   if (domainList) {
-     for (let index = 0; index < domainList.length; index++) {
-       const dm: DomainListProps = domainList[index]
+   let timeout: number|undefined
+   if (domainAry) {
+     for (let index = 0; index < domainAry.length; index++) {
+       const dm: DomainAryProps = domainAry[index] // 整个域名的
        if (!dm.serviceName) {
          continue
        } else {
@@ -41,12 +42,14 @@
            return typeof sn === 'string' ? path.includes(sn) : path.includes(sn.name)
          })
          if (service) {
-           if (typeof service === 'string') {
-             header = dm.headerRequest
+           if (typeof service === 'string') { // 具体服务的
+             header = dm.headers
              domain = dm.domainName
+             timeout = dm.timeout
            } else {
-             header = service.header || dm.headerRequest
+             header = service.header || dm.headers
              domain = dm.domainName
+             timeout = service.timeout || dm.timeout
            }
            break
          }
@@ -54,8 +57,9 @@
      }
    }
    return {
-     baseURL: domain || baseDomainName,
-     header: header || baseHeader
+     baseURL: domain || request.domainName,
+     header: header || request.headers,
+     timeout
    }
  }
  
@@ -144,11 +148,12 @@
      const pendingKey = this.getPendingKey(config)
      if (this.pendingMap.has(pendingKey)) {
        const cancelToken = this.pendingMap.get(pendingKey)
-       cancelToken(pendingKey)
+       cancelToken('取消请求:' + pendingKey)
        this.pendingMap.delete(pendingKey)
      }
    }
  
+   /** 初始化：注册拦截器 */
    private init () {
      const { cancelRepeatRequest: axiosCancel } = this.axiosConfig
      this.instance.interceptors.request.use((config) => {
@@ -186,13 +191,15 @@
     * @returns {Promise<any>}
     */
    request = (url: URLInterface, params: any = {}, otherConfig: RequestMethodProps = {}) => {
-     const { instance, axiosConfig: { requestConfig, timeout, project, handleResponseData, requertDynamicHeader } } = this
+     const { instance, axiosConfig: { requestConfig, timeout: AllTimeout, project, handleResponseData, requertDynamicHeader } } = this
      const { config, headers = {}, cancelRepeatRequest }:RequestMethodProps = otherConfig
      // 接口的修改配置等
      const { path, type = 'post' } = baseReplaceURL(url, { project: project })
      // 请求头的处理判断
-     const { header = {}, baseURL } = headerHandle(url, requestConfig)
+     const { header = {}, baseURL, timeout } = headerHandle(url, requestConfig)
+     // 判断是否存在动态的请求函数，存在则根据函数的返回执行
      const cusrHeader = requertDynamicHeader ? requertDynamicHeader() : {}
+     // 发送请求
      const responsePromise = instance.request({
        url: path,
        baseURL,
@@ -200,10 +207,11 @@
        data: /(post|POST)/.test(type) ? params : undefined, // post请求方式
        params: /(get|GET)/.test(type) ? params : undefined, // get 请求方式
        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
-       timeout: timeout,
+       timeout: timeout || AllTimeout,
        headers: { ...header, ...cusrHeader, ...headers, cancelRepeatRequest },
        ...config
      })
+     // 判断是否存在 业务请求数据处理函数
      if (handleResponseData) {
        return new Promise((resolve, reject) => {
          responsePromise.then((response) => {
@@ -218,6 +226,37 @@
        })
      }
      return responsePromise
+   }
+
+   /**
+    * 取消请求
+    * * 根据当前的请求数据去取消这个请求
+    * * 请求的接口还有参数为唯一的建
+    */
+   unRequest = (url: URLInterface, params: any = {}, otherConfig: RequestMethodProps = {}) => {
+    const { axiosConfig: { project } } = this
+    const { config }:RequestMethodProps = otherConfig
+    // 接口的修改配置等
+    const { path, type = 'post' } = baseReplaceURL(url, { project: project })
+    let [baseParam, baseData] = [undefined, undefined]
+    if (/(post|POST)/.test(type)) {
+      baseData = params
+    } else if (/(get|GET)/.test(type)) {
+      baseParam = params
+    }
+    if (config) { // 存在额外的配置
+      const { params, data } = config
+      baseParam = params || baseParam
+      baseData = data || baseData
+    }
+    if (typeof baseData === 'string') baseData = JSON.parse(baseData) // response里面返回的config.data是个字符串对象
+    // 移除请求等
+    this.removePending({
+      url: path,
+      method: type,
+      params: baseParam,
+      data: baseData
+    })
    }
  
    /** 取消所有的请求 */

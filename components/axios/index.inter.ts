@@ -2,7 +2,7 @@
  * @description 接口的定义
  * @author minjie
  * @Date 2022-03-07 15:46
- * @LastEditTime 2022-03-08 14:29
+ * @LastEditTime 2022-03-15 14:17
  * @LastEditors minjie
  * @copyright Copyright © 2021 Shanghai Yejia Digital Technology Co., Ltd. All rights reserved.
  */
@@ -35,24 +35,30 @@ export interface ServiceConfigProps {
   name: string
   /** 请求头 */
   header: any
+  /** 超时的时间 */
+  timeout?: number
 }
 
-export interface DomainListProps {
+export interface DomainAryProps {
   /** 域名 */
   domainName: string
   /** 请求头 */
-  headerRequest?: any
+  headers?: any
+  /** 超时的时间 */
+  timeout?: number
   /** 服务名 */
   serviceName?: (string | ServiceConfigProps)[]
 }
 
 export interface RequestConfigProps {
   /** 基础的域名 */
-  baseDomainName: string
+  domainName: string
   /** 基础的请求头 */
-  baseHeader?: any
+  headers?: any
+  /** 超时的时间 */
+  timeout?: number
   /** 详细的配置 */
-  domainList?: DomainListProps[]
+  domainAry?: DomainAryProps[]
 }
 /** 替换的参数的配置 */
 export interface BaseReplaceURLConfig {
@@ -105,8 +111,7 @@ export interface AxiosProps {
    */
   requertDynamicHeader?: () => any
   /**
-   * 处理请求之后的数据
-   * 状态处理等
+   * 处理请求之后的数据: 业务数据处理
    */
   handleResponseData?: (response: AxiosResponse, otherConfig?: RequestMethodProps, axios?: any) => Promise<any>
 }

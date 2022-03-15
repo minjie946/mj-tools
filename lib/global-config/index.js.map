@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sources":["../../components/global-config/index.ts"],"sourcesContent":[null],"names":["globalConfig","initConfig","config","project","power","powerData"],"mappings":"AAiBM,IAAAA,EAAiC,GAE1BC,EAAa,SAACC,GACzBF,EAAaG,QAAUD,EAAOC,QAC9BH,EAAaI,MAAQF,EAAOE,MAC5BJ,EAAaK,UAAYH,EAAOG"}

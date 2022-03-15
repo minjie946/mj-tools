@@ -23,6 +23,7 @@ export default class Axios {
      * @param {*} config
      */
     private removePending;
+    /** 初始化：注册拦截器 */
     private init;
     /**
      * 发送请求
@@ -32,6 +33,12 @@ export default class Axios {
      * @returns {Promise<any>}
      */
     request: (url: URLInterface, params?: any, otherConfig?: RequestMethodProps) => Promise<unknown>;
+    /**
+     * 取消请求
+     * * 根据当前的请求数据去取消这个请求
+     * * 请求的接口还有参数为唯一的建
+     */
+    unRequest: (url: URLInterface, params?: any, otherConfig?: RequestMethodProps) => void;
     /** 取消所有的请求 */
     onCancelRequestAll: () => void;
 }

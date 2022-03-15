@@ -1,6 +1,6 @@
 /** axios 请求的封装 */
 export { default as Axios } from './axios'
-export type { URLInterface, ServiceConfigProps, DomainListProps, RequestConfigProps, RequestMethodProps, AxiosProps } from './axios/index.inter'
+export type { URLInterface, ServiceConfigProps, DomainAryProps, RequestConfigProps, RequestMethodProps, AxiosProps } from './axios/index.inter'
 
 /** 贝塞尔曲线移动动画 */
 export { default as animation } from './animation'
@@ -31,5 +31,6 @@ export {
   getBrowserInfo
 } from './utils'
 
-/** 全局配置 */
-export { default as globalConfig, initConfig } from './global-config'
+/** AES 加密 */
+export { default as encryption, decCBC, decECB, encCBC, encECB } from './encryption'
+export type { ConfigProps } from './encryption'
