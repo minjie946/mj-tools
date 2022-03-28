@@ -34,3 +34,7 @@ export {
 /** AES 加密 */
 export { default as encryption, decCBC, decECB, encCBC, encECB } from './encryption'
 export type { ConfigProps } from './encryption'
+
+/** OSS 文件上传 */
+export { default as OSSUtil, setConfig, upload, dowload, onGetLink } from './oss-util'
+export type { OssConfigProps, UploadProps, STSParam, FileType, UploadResponse, GetLinkProps, DowloadProps } from './oss-util/index.info'
