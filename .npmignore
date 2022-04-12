@@ -16,6 +16,8 @@ index.html
 # 文件夹
 test/
 src/
+docs/
+docs/*
 typings/
 components/
 config/

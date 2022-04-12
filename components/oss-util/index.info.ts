@@ -2,7 +2,7 @@
  * @description 描述
  * @author minjie
  * @Date 2022-03-24 17:11
- * @LastEditTime 2022-03-28 14:25
+ * @LastEditTime 2022-04-12 10:21
  * @LastEditors minjie
  * @copyright Copyright © 2021 Shanghai Yejia Digital Technology Co., Ltd. All rights reserved.
  */
@@ -38,7 +38,7 @@ export interface UploadProps {
   file: any
   /** oss 存放路径： 不包含文件名 */
   ossPath: string
-  /** bucket */
+  /** bucket: 当没有配置bucket的时候采用这个，优先使用当前的 bucket */
   bucket?: string
   /** 是否重命名(默认： true) */
   rename?: string | boolean

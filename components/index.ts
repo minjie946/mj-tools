@@ -10,19 +10,8 @@ export type { AnimationProps } from './animation'
 export {
   default as utils,
   isEmpty,
-  isFunction,
   compareDeep,
-  parsetInt,
-  parsetIntAndKeepMinus,
-  toFixed,
-  toFixedAndKeepMinus,
-  conversionOf,
-  removeEmpty,
   doubleFormat,
-  throttle,
-  subString,
-  isIP,
-  isEmptyObjOrArr,
   allSettled,
   deepCopyObj,
   objDeepCopy,
@@ -30,6 +19,7 @@ export {
   isPcOrPhone,
   getBrowserInfo
 } from './utils'
+export type { AllSettledResponse } from './utils'
 
 /** AES 加密 */
 export { default as encryption, decCBC, decECB, encCBC, encECB } from './encryption'

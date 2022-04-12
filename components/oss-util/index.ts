@@ -2,7 +2,7 @@
  * @description OSS 文件上传
  * @author minjie
  * @Date 2022-03-24 16:51
- * @LastEditTime 2022-03-28 14:30
+ * @LastEditTime 2022-04-12 10:36
  * @LastEditors minjie
  * @copyright Copyright © 2021 Shanghai Yejia Digital Technology Co., Ltd. All rights reserved.
  */
@@ -28,35 +28,40 @@ export const getClien = (bucketMethod?: string): Promise<OSS> => {
   }: OssConfigProps = OssConfig
   // 当前的bucket
   const nowBucket:string = bucketMethod || bucket
-  if (!fristBucket) fristBucket = nowBucket
-  if (OssClient && nowBucket === fristBucket) {
-    return Promise.resolve(OssClient)
+  if (!nowBucket) {
+    console.error('请配置bucket')
+    return Promise.reject(new Error('请配置bucket'))
   } else {
-    // 存在key 则直接使用这种形式进行创建实列
-    if (accessKeyId && accessKeySecret) {
-      OssClient = new OSS({
-        region,
-        accessKeyId,
-        accessKeySecret,
-        bucket: nowBucket
-      })
+    if (!fristBucket) fristBucket = nowBucket
+    if (OssClient && nowBucket === fristBucket) {
       return Promise.resolve(OssClient)
-    } else if (typeof getStsToken === 'function') {
-      return new Promise((resolve, reject) => {
-        getStsToken().then(({ accessKeyId, accessKeySecret, stsToken }: STSParam) => {
-          OssClient = new OSS({
-            region,
-            accessKeyId,
-            accessKeySecret,
-            bucket: nowBucket,
-            stsToken,
-            secure: true,
-            refreshSTSTokenInterval,
-            refreshSTSToken: async ():Promise<STSParam> => await getStsToken()
-          })
-          resolve(OssClient)
-        }).catch((err) => reject(err))
-      })
+    } else {
+      // 存在key 则直接使用这种形式进行创建实列
+      if (accessKeyId && accessKeySecret) {
+        OssClient = new OSS({
+          region,
+          accessKeyId,
+          accessKeySecret,
+          bucket: nowBucket
+        })
+        return Promise.resolve(OssClient)
+      } else if (typeof getStsToken === 'function') {
+        return new Promise((resolve, reject) => {
+          getStsToken().then(({ accessKeyId, accessKeySecret, stsToken }: STSParam) => {
+            OssClient = new OSS({
+              region,
+              accessKeyId,
+              accessKeySecret,
+              bucket: nowBucket,
+              stsToken,
+              secure: true,
+              refreshSTSTokenInterval,
+              refreshSTSToken: async ():Promise<STSParam> => await getStsToken()
+            })
+            resolve(OssClient)
+          }).catch((err) => reject(err))
+        })
+      }
     }
   }
 }

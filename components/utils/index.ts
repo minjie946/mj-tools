@@ -5,7 +5,7 @@
  * @returns true 为空 false 不为空
  */
 export const isEmpty = (value: any | any[], type: 'all' | 'onley' = 'onley'): boolean => {
-  if (isFunction(value)) {
+  if (Array.isArray(value)) {
     if (value.length === 0) return true
     if (type === 'onley') {
       for (let index = 0; index < value.length; index++) {
@@ -27,37 +27,6 @@ export const isEmpty = (value: any | any[], type: 'all' | 'onley' = 'onley'): bo
     }
   }
   return !value || value === ''
-}
-
-/** 判断空对象或者空数组 */
-export const isEmptyObjOrArr = function (obj: any) {
-  if (!obj && obj !== 0 && obj !== '') {
-    return true
-  }
-  if (Array.prototype.isPrototypeOf(obj) && obj.length === 0) {
-    return true
-  }
-  if (Object.prototype.isPrototypeOf(obj) && Object.keys(obj).length === 0) {
-    return true
-  }
-  return false
-}
-
-/** 字符串截取 */
-export const subString = (str: string, len: number = 3) => {
-  return str && str.length > len ? str.substr(0, len) + '...' : str
-}
-
-// 判断是否是Ip请求
-export const isIP = (val: string) => {
-  return /(http|https):\/\/[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}/.test(
-    val
-  )
-}
-
-/** 判断是否是数组 */
-export const isFunction = (data: any) => {
-  return Object.prototype.toString.call(data) === '[object Array]'
 }
 
 /** 深度对比两个对象是否相同 */
@@ -109,92 +78,6 @@ export const compareDeep = (origin: any, target: any) => {
   return true
 }
 
-/** ---------------------------------表单内容 start --------------------------------- */
-
-/* 只允许输入整数 */
-export const parsetInt = (v: string, intLen: number = 8) => {
-  return v.substr(0, intLen).replace(/[^\d]/g, '')
-}
-
-/* 只允许输入整数且支持可以保留负号 */
-export const parsetIntAndKeepMinus = (v: string, intLen: number = 8) => {
-  v = v
-    .replace(/[^\d-]/g, '')
-    .replace(/-{1,}/g, '-')
-    .replace(/^-/, '$#$')
-    .replace(/-/g, '')
-    .replace('$#$', '-')
-  if (v.indexOf('-') > -1) intLen += 1
-  return v.substr(0, intLen)
-}
-
-/**
- * 保留小数点，默认保留两位
- * @param v 待处理字符串
- * @param decimalsLen 小数点位数
- * @param intLen 整数位数
- */
-export const toFixed = (v: string, decimalsLen = 2, intLen: number = 8) => {
-  v = v
-    .substr(0, intLen + decimalsLen + 1)
-    .replace(/[^\d.]/g, '')
-    .replace(/^\./, '')
-    .replace(/\.{2,}/g, '.')
-    .replace('.', '$#$')
-    .replace(/\./g, '')
-    .replace('$#$', '.')
-    .replace(new RegExp(`^(\\d+)\\.(\\d{0,${decimalsLen}}).*$`), '$1.$2')
-    .replace(/^\d+/, (match: string) => {
-      return (parseFloat(match) + '').substr(0, intLen)
-    })
-  return v
-}
-
-/* 保留小数点和负号，小数点默认保留两位 */
-export const toFixedAndKeepMinus = (v: string, decimalsLen = 2, intLen: number = 8) => {
-  v = v
-    .replace(/[^\d.-]/g, '')
-    .replace(/^\./, '')
-    .replace(/\.{2,}/g, '.')
-    .replace('.', '$#$')
-    .replace(/\./g, '')
-    .replace('$#$', '.')
-    .replace(/-{1,}/g, '-')
-    .replace(/^-/, '$#$')
-    .replace(/-/g, '')
-    .replace('$#$', '-')
-    .replace(new RegExp(`^(\\d+)\\.(\\d{0,${decimalsLen}}).*$`), '$1.$2')
-  if (v.indexOf('-') > -1) intLen += 1
-  v = v
-    .replace(/^-?\d+/, (match: string) => {
-      return (parseFloat(match) + '').substr(0, intLen)
-    })
-  return v.substr(0, intLen + decimalsLen + 1)
-}
-
-/**
- * 转换限制
- * @param reg 表达式
- * @param val 转换值
- * @param len 长度
- */
-export const conversionOf = (reg: any, val: string, len?: number): string => {
-  val = val.replace(reg, '')
-  if (len) {
-    val = val.length > len ? val.substr(0, len) : val
-  }
-  return val
-}
-
-/**
- * 去除空格
- */
-export const removeEmpty = (val: any) => {
-  return val.replace(/(^\s*)|(\s*$)/g, '')
-}
-
-/** ---------------------------------表单内容 end --------------------------------- */
-
 /**
  * 对金额进行格式化
  * @method doubleFormat
@@ -227,23 +110,11 @@ export const doubleFormat = (number: any, decimals: number, interval: number = 4
   return (t.split('').reverse().join('') + r)
 }
 
-/**
- * 自定义事件
- * @param type  事件类型
- * @param name  事件名
- * @param obj   绑定对象
- */
-export const throttle = (type: any, name: any, obj: any = window) => {
-  let running = false
-  let func = function () {
-    if (running) { return }
-    running = true
-    requestAnimationFrame(() => {
-      obj.dispatchEvent(new CustomEvent(name))
-      running = false
-    })
-  }
-  obj.addEventListener(type, func)
+export interface AllSettledResponse {
+  /** 成功:success 失败:failure */
+  status: 'success'|'failure'
+  /** 返回的信息 */
+  value: any
 }
 
 /**
@@ -253,17 +124,17 @@ export const throttle = (type: any, name: any, obj: any = window) => {
  * @param promises
  * @returns
  */
-export const allSettled = (promises: Promise<any>[]) => {
+export const allSettled = (promises:Promise<any>[]):Promise<AllSettledResponse[]> => {
   return new Promise(resolve => {
-    const data: any[] = []
+    const data:AllSettledResponse[] = []
     const len = promises.length
     let count = len
     for (let i = 0; i < len; i += 1) {
-      const promise: Promise<any> = promises[i]
+      const promise:Promise<any> = promises[i]
       promise.then(res => {
-        data[i] = { status: 'fulfilled', value: res }
+        data[i] = { status: 'success', value: res }
       }, error => {
-        data[i] = { status: 'rejected', reason: error }
+        data[i] = { status: 'failure', value: error }
       }).finally(() => { // promise has been settled
         if (!--count) resolve(data)
       })
@@ -355,19 +226,8 @@ export const getBrowserInfo = (): string => {
 
 export default {
   isEmpty,
-  isFunction,
   compareDeep,
-  parsetInt,
-  parsetIntAndKeepMinus,
-  toFixed,
-  toFixedAndKeepMinus,
-  conversionOf,
-  removeEmpty,
   doubleFormat,
-  throttle,
-  subString,
-  isIP,
-  isEmptyObjOrArr,
   allSettled,
   deepCopyObj,
   objDeepCopy,
