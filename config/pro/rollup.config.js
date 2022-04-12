@@ -21,7 +21,10 @@ import path from 'path'
 import pkg from  '../../package.json'
 
 const globalsObject = {
-  axios: 'axios'
+  axios: 'axios',
+  // 'ali-oss': 'ali-oss',
+  // 'crypto-js': 'crypto-js',
+  // qs: 'qs'
 }
 
 const baseOutPutConfig = {

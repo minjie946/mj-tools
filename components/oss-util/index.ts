@@ -2,7 +2,7 @@
  * @description OSS 文件上传
  * @author minjie
  * @Date 2022-03-24 16:51
- * @LastEditTime 2022-04-12 10:36
+ * @LastEditTime 2022-04-12 11:13
  * @LastEditors minjie
  * @copyright Copyright © 2021 Shanghai Yejia Digital Technology Co., Ltd. All rights reserved.
  */
@@ -142,7 +142,7 @@ export const onGetLink = async ({ bucket, bucketName, type = 'image', expires = 
   if (typeof bucketName === 'string') {
     return await client.signatureUrl(bucketName, header)
   } else {
-    return await bucketName.map((name:string) => client.signatureUrl(name, header))
+    return await bucketName.map((name:string) => client ? client.signatureUrl(name, header) : name)
   }
 }
 
